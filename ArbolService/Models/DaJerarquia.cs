@@ -15,6 +15,7 @@ namespace ArbolService.Models
         {
             this.Cn = Cn;
         }
+
         public List<RelacionMallas> ObtenerListaRelacionMallas(string malla)
         {
             List<RelacionMallas> listaRelacionMalla = new List<RelacionMallas>();
@@ -76,6 +77,7 @@ namespace ArbolService.Models
             }
             return listaJobs;
         }
+
         // Obtener lista Predecesores
         public List<RelacionMallas> ObtenerListaPredecesores(string malla)
         {
