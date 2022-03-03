@@ -140,5 +140,47 @@ namespace ArbolService.Controllers
             }
         }
 
+        // Añadiendo Código
+        [Route("api/Predecesores")]
+        [HttpGet]
+        public IHttpActionResult Predecesores([FromUri] string malla, [FromUri] string job)
+        {
+            try
+            {
+                List<RelacionMallas> lista = new List<RelacionMallas>();
+                daJerarquia = new DaJerarquia(dalConnection);
+                lista = daJerarquia.ObtenerListaPredecesores(malla);
+                RelacionMallas rl = new RelacionMallas();
+                rl.Parent = job;
+                rl.Child = "";
+                lista.Add(rl);
+                //int longitud_lista = lista.Count();
+                List<Dataframe> df = new List<Dataframe>();
+                foreach (var item in lista)
+                {
+                    Dataframe df1 = new Dataframe();
+                    df1.eid = item.Parent;
+                    df1.Parent = item.Parent;
+                    df1.Child = item.Child;
+                    df.Add(df1);
+                }
+                parents = new List<Dictionary<string, Dataframe>>();
+                foreach (var item in df)
+                {
+                    Dictionary<string, Dataframe> parent = new Dictionary<string, Dataframe>();
+                    parent[item.Child] = item;
+                    parents.Add(parent);
+                }
+                var tree = buildtree();
+                //var json = Newtonsoft.Json.JsonConvert.SerializeObject(lista);
+                return Ok(tree);
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex);
+            }
+        }
+
     }
 }

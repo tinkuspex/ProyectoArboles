@@ -15,6 +15,7 @@ namespace ArbolService.Models
         {
             this.Cn = Cn;
         }
+
         public List<RelacionMallas> ObtenerListaRelacionMallas(string malla)
         {
             List<RelacionMallas> listaRelacionMalla = new List<RelacionMallas>();
@@ -76,5 +77,30 @@ namespace ArbolService.Models
             }
             return listaJobs;
         }
+
+        // Obtener lista Predecesores
+        public List<RelacionMallas> ObtenerListaPredecesores(string malla)
+        {
+            List<RelacionMallas> listaRelacionMalla = new List<RelacionMallas>();
+            SqlConnection cn = this.Cn.Connect();
+
+            SqlDataReader dr = null;
+            cn.Open();
+            cmd = new SqlCommand("sp_BuscarPredecesores ", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Malla", malla);
+
+            dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                RelacionMallas relacion = new RelacionMallas();
+                relacion.Id = Convert.ToInt32(dr["Id"]);
+                relacion.Parent = Convert.ToString(dr["Parent"]);
+                relacion.Child = Convert.ToString(dr["Child"]);
+                listaRelacionMalla.Add(relacion);
+            }
+            return listaRelacionMalla;
+        }
+
     }
 }
