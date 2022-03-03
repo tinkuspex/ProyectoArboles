@@ -15,7 +15,12 @@
             </select>
         </div>
         <div class="col-3  ">
-            <button class="btn btn-primary  d-flex  align-content-center" onclick="getDatos()"> Enviar</button>
+            <button class="btn btn-primary  d-flex  align-content-center" style="margin: auto; background-color: #135fcf; width: 50%; border: 3px solid green; padding: 10px; " onclick="Sucesores()"> Sucesores</button>
+          
+        </div>
+
+        <div class="col-2  ">
+            <button class="btn btn-primary  d-flex  align-content-center" style="margin: auto; background-color: #e1843b; width: 75%; border: 3px solid green; padding: 10px; " onclick="getDatos()"> Predecesores </button>
         </div>
 
     </div>
@@ -94,7 +99,18 @@ function getDatos(){
 
   PrintArbol(urlAPI+"RelacionMalla?malla="+mallaOpcion+"&job="+jobOpcion);
   d3.select(self.frameElement).style("height", "800px");
-}
+    }
+
+    //Aumentando linea de código
+    function Sucesores() {
+        var mallaOpcion = $("#Malla").val();
+        var jobOpcion = $("#Job").val();
+        console.log(mallaOpcion);
+        console.log(jobOpcion);
+
+        PrintArbol(urlAPI + "Predecesores?malla=" + mallaOpcion + "&job=" + jobOpcion);
+        d3.select(self.frameElement).style("height", "800px");
+    }
 
 function PrintArbol(ruta){
   d3.json(ruta, function(error, tree_data) {
